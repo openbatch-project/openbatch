@@ -54,11 +54,23 @@ Para rodar o projeto localmente ou desenvolver novas features.
 
 ### 2\. Instalação
 
-Clone o repositório e instale as dependências na pasta do projeto:
+O projeto está dividido em duas partes: `frontend` e `backend`. Você precisará instalar as dependências de ambos.
 
+Clone o repositório:
 ```bash
 git clone https://github.com/marcusmartinss/openbatch.git
 cd openbatch
+```
+
+Instale as dependências do Frontend:
+```bash
+cd frontend
+npm install
+```
+
+Instale as dependências do Backend:
+```bash
+cd ../backend
 npm install
 ```
 
@@ -66,17 +78,21 @@ npm install
 
 #### Compilar o Frontend
 
-Gera os arquivos estáticos na pasta `dist/`.
+Gera os arquivos estáticos na pasta `dist/` do frontend para que o backend possa servi-los.
 
 ```bash
+cd ../frontend
 npm run build
 ```
+
+*(Durante o desenvolvimento contínuo, você também pode usar `npm run dev` na pasta frontend).*
 
 #### Iniciar o Backend
 
 Para que a autenticação PAM e a criação de terminais funcionem plenamente, o backend deve ter permissões elevadas (ou rodar como root).
 
 ```bash
+cd ../backend
 sudo npm start
 ```
 
