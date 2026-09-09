@@ -33,68 +33,12 @@ O sistema segue uma arquitetura de três camadas, projetada para segurança e es
 
 -----
 
-## Deploy Automatizado (Ansible)
+## Deploy Automatizado
 
-Este projeto utiliza **Infraestrutura como Código (IaC)** para provisionar todo o ambiente, desde a configuração de rede até a aplicação.
+Para realizar o deploy completo deste projeto em um ambiente de produção ou cluster, utilizamos o **Ansible**.
+Os scripts de infraestrutura como código foram separados para um repositório dedicado. 
 
-### Pré-requisitos de Automação
-
-  - Máquina de controle com **Ansible** instalado.
-  - Acesso SSH às máquinas alvo (Manager e Workers).
-  - Usuário com privilégios `sudo` nas máquinas alvo.
-
-### 1\. Configuração do Inventário
-
-Navegue até a pasta `ansible` e copie o exemplo:
-
-```bash
-cd ansible
-cp inventory.example.ini inventory.ini
-```
-
-Edite o arquivo `inventory.ini` preenchendo os IPs e variáveis:
-
-```ini
-[slurm_controller]
-# Defina o IP de conexão (ansible_host) e o IP estático desejado (static_ip)
-manager0 ansible_host=192.168.x.x interface_name=eth0 static_ip=192.168.122.10
-
-[slurm_nodes]
-worker0 ansible_host=192.168.x.x interface_name=eth0 static_ip=192.168.122.11
-worker1 ansible_host=192.168.x.x interface_name=eth0 static_ip=192.168.122.12
-
-[all:vars]
-ansible_user=seu_usuario_ssh
-# Defina uma senha forte para o banco de dados do Slurm
-db_password="sua_senha_segura"
-```
-
-### 2\. Execução dos Playbooks
-
-A implantação é dividida em 3 fases para garantir estabilidade:
-
-**Fase 1: Rede Base**
-Configura IPs estáticos e resolução de nomes (`/etc/hosts`) em todos os nós.
-
-```bash
-ansible-playbook 01-network-config.yaml --ask-become-pass
-```
-
-> *Nota: A conexão SSH pode cair momentaneamente durante a troca de IP.*
-
-**Fase 2: Cluster SLURM**
-Instala Munge, Slurm (Controller/DB/D), MariaDB e configura Cgroups e limites de segurança.
-
-```bash
-ansible-playbook 02-slurm-config.yaml --ask-become-pass
-```
-
-**Fase 3: Aplicação OpenBatch**
-Instala Node.js, ClamAV, compila o frontend e configura o serviço systemd no Manager.
-
-```bash
-ansible-playbook 03-deploy-openbatch.yaml --ask-become-pass
-```
+Por favor, acesse o repositório [openbatch-setup](https://github.com/openbatch-project/openbatch-setup) para instruções completas de como provisionar o ambiente.
 
 -----
 
@@ -114,7 +58,7 @@ Clone o repositório e instale as dependências na pasta do projeto:
 
 ```bash
 git clone https://github.com/marcusmartinss/openbatch.git
-cd openbatch/openbatch
+cd openbatch
 npm install
 ```
 
