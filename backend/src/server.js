@@ -25,7 +25,7 @@ const app = express();
 const upload = multer({ dest: '/tmp/' });
 
 app.use(cors());
-app.use(express.static(path.join(__dirname, 'dist')));
+app.use(express.static(path.join(__dirname, '../../frontend/dist')));
 app.use(express.json());
 
 const server = http.createServer(app);
